@@ -1,0 +1,24 @@
+{
+  "name": "justpublished",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"cd ./src/server && npm run server\" \"cd ./src/client && npm run start\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nakullondhe/justPublished.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nakullondhe/justPublished/issues"
+  },
+  "homepage": "https://github.com/nakullondhe/justPublished#readme",
+  "dependencies": {
+    "chart.js": "^4.2.0",
+    "concurrently": "^7.6.0"
+  }
+}
