@@ -1,5 +1,6 @@
 import React from 'react'
 import Chart from 'chart.js/auto';
+import { Typography } from '@mui/material';
 
 const Charting = () => {
   const chartRef = React.useRef(null);
@@ -24,7 +25,7 @@ const Charting = () => {
     });
   }, []);
   
-  return ( 
+  return (
     <div>
       <canvas id="myChart" ref={chartRef} height="300"/>
     </div>
