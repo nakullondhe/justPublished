@@ -24,7 +24,7 @@ const Charting = () => {
     });
   }, []);
   
-  return ( 
+  return (
     <div>
       <canvas id="myChart" ref={chartRef} height="300"/>
     </div>

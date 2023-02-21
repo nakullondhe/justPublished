@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,78 +8,110 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import { Collapse } from "@mui/material";
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import ScheduleSendIcon from '@mui/icons-material/ScheduleSend';
-import ScheduleIcon from '@mui/icons-material/Schedule';
-import HistoryIcon from '@mui/icons-material/History';
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import ScheduleSendIcon from "@mui/icons-material/ScheduleSend";
+import ScheduleIcon from "@mui/icons-material/Schedule";
+import HistoryIcon from "@mui/icons-material/History";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import PostAddIcon from "@mui/icons-material/PostAdd";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
 const SideBar = () => {
   const [open, setOpen] = React.useState(true);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const handleRedirect = (path) => {
+   return navigate(path);
+  };
 
   const handleClick = () => {
     setOpen(!open);
   };
-  return ( 
+
+  const menuList = [
+    {
+      text: "Dashboard",
+      icon: <DashboardIcon />,
+    },
+    {
+      text: "Posts",
+      icon: <PostAddIcon />,
+    },
+    {
+      text: "Accounts",
+      icon: <ManageAccountsIcon />,
+    },
+  ];
+
+  const scheduleList = [
+    {
+      text: "Schedule",
+      icon: <ScheduleIcon />,
+    },
+    {
+      text: "History",
+      icon: <HistoryIcon />,
+    },
+  ];
+
+
+  return (
     <Drawer
-        variant="permanent"
-        sx={{
+      variant="permanent"
+      sx={{
+        width: drawerWidth,
+        flexShrink: 0,
+        [`& .MuiDrawer-paper`]: {
           width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-      >
-        <Toolbar />
-        <Box sx={{ overflow: "auto" }}>
-          <List>
-            {["Dashboard", "Posts"].map(
-              (text, index) => (
-                <ListItem key={text} disablePadding>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                    </ListItemIcon>
-                    <ListItemText primary={text} />
-                  </ListItemButton>
-                </ListItem>
-              )
-            )}
-            <ListItemButton onClick={handleClick}>
-              <ListItemIcon>
-                <ScheduleSendIcon />
-              </ListItemIcon>
-              <ListItemText primary="Scheduling" />
-              {open ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItemButton sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <ScheduleIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Scheduled Posts"/>
+          boxSizing: "border-box",
+        },
+      }}
+    >
+      <Toolbar />
+      <Box sx={{ overflow: "auto" }}>
+        <List>
+          {menuList.map(({ text, icon }, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton
+                selected={location.pathname === `/${text.toLowerCase()}`}
+                onClick={() => handleRedirect(`/${text.toLowerCase()}`)}
+              >
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+          <ListItemButton onClick={handleClick}>
+            <ListItemIcon>
+              <ScheduleSendIcon />
+            </ListItemIcon>
+            <ListItemText primary="Scheduling" />
+            {open ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {scheduleList.map(({ text, icon }, index) => (
+                <ListItemButton
+                  key={text}
+                  selected={location.pathname === `/${text.toLowerCase()}`}
+                  sx={{ pl: 4 }}
+                >
+                  <ListItemIcon>{icon}</ListItemIcon>
+                  <ListItemText primary={text} />
                 </ListItemButton>
-                <ListItemButton sx={{ pl: 4 }}>
-                  <ListItemIcon>
-                    <HistoryIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="History"/>
-                </ListItemButton>
-              </List>
-            </Collapse>
-          </List>
-          <Divider />
-        </Box>
-      </Drawer>
-   );
-}
- 
+              ))}
+            </List>
+          </Collapse>
+        </List>
+        <Divider />
+      </Box>
+    </Drawer>
+  );
+};
+
 export default SideBar;

@@ -5,9 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
 import SideBar from "../Components/SideBar";
 
-
-export default function PageWrapper({children}) {
-  
+function PageWrapper({ children }) {  
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -20,3 +18,5 @@ export default function PageWrapper({children}) {
     </Box>
   );
 }
+
+export default PageWrapper;
