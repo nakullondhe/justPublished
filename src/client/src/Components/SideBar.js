@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
@@ -17,13 +17,17 @@ import HistoryIcon from "@mui/icons-material/History";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import { useLocation, redirect } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
 const SideBar = () => {
   const [open, setOpen] = React.useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
+  const handleRedirect = (path) => {
+   return navigate(path);
+  };
 
   const handleClick = () => {
     setOpen(!open);
@@ -55,6 +59,7 @@ const SideBar = () => {
     },
   ];
 
+
   return (
     <Drawer
       variant="permanent"
@@ -74,7 +79,7 @@ const SideBar = () => {
             <ListItem key={text} disablePadding>
               <ListItemButton
                 selected={location.pathname === `/${text.toLowerCase()}`}
-                onClick={redirect(`/${text.toLowerCase()}`)}
+                onClick={() => handleRedirect(`/${text.toLowerCase()}`)}
               >
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={text} />
@@ -92,6 +97,7 @@ const SideBar = () => {
             <List component="div" disablePadding>
               {scheduleList.map(({ text, icon }, index) => (
                 <ListItemButton
+                  key={text}
                   selected={location.pathname === `/${text.toLowerCase()}`}
                   sx={{ pl: 4 }}
                 >

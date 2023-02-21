@@ -1,15 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Paper, Tab, Tabs,Typography } from "@mui/material";
 import LoginTab from "../Components/LoginTab";
 import RegisterTab from "../Components/RegisterTab";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { Navigate, useNavigate } from "react-router-dom";
+import { token } from "../Helpers/AxiosHelper";
 
 
-const Login = () => {
+const Auth = () => {
   const [tab, setTab] = React.useState(0);
+  const navigate = useNavigate()
 
-  const handleChange = (event, newValue) => {
-    setTab(newValue);
-  };
+  
+  const handleChange = (event, newValue) => setTab(newValue);
+
+  useEffect(() => {
+    const jwt = localStorage.getItem("jptoken");
+    console.log({jwt});
+    if (jwt) return navigate("/dashboard");
+  }, []);
 
   return (
     <>
@@ -34,7 +43,7 @@ const Login = () => {
           }}
         >
           <Typography variant="h4" component="h4" gutterBottom>
-            Login
+            {tab === 0 ? "Login" : "Register"}
           </Typography>
           <Tabs
             variant="fullWidth"
@@ -56,4 +65,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Auth;
